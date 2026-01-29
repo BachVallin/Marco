@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Clicks</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .game {
+      text-align: center;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    button {
+      font-size: 20px;
+      padding: 15px 30px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background: #4caf50;
+      color: #fff;
+      margin-top: 15px;
+    }
+
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+
+    .score {
+      font-size: 24px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game">
+    <h1>🎯 Click rápido</h1>
+    <p>Tienes <strong>10 segundos</strong></p>
+
+    <div class="score">
+      Puntos: <span id="score">0</span>
+    </div>
+
+    <div class="score">
+      Tiempo: <span id="time">10</span>s
+    </div>
+
+    <button id="clickBtn" disabled>¡Haz click!</button>
+    <br>
+    <button id="startBtn">Empezar juego</button>
+  </div>
+
+  <script>
+    let score = 0;
+    let timeLeft = 10;
+    let timer;
+    const scoreEl = document.getElementById("score");
+    const timeEl = document.getElementById("time");
+    const clickBtn = document.getElementById("clickBtn");
+    const startBtn = document.getElementById("startBtn");
+
+    clickBtn.addEventListener("click", () => {
+      score++;
+      scoreEl.textContent = score;
+    });
+
+    startBtn.addEventListener("click", () => {
+      score = 0;
+      timeLeft = 10;
+      scoreEl.textContent = score;
+      timeEl.textContent = timeLeft;
+      clickBtn.disabled = false;
+      startBtn.disabled = true;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        timeEl.textContent = timeLeft;
+
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          clickBtn.disabled = true;
+          startBtn.disabled = false;
+          alert("⏱️ Tiempo terminado. Puntuación: " + score);
+        }
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>
